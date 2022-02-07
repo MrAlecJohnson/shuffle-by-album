@@ -1,25 +1,28 @@
 import spotipy
 import streamlit as st
 
-from shuffle_by_album.functions import (
-    display_album,
+from shuffle_by_album.spotify_functions import (
+    authenticate_spotify,
     get_params,
-    log_in,
-    playlist_id_dict,
     playlist_albums,
     pick_albums,
+    extract_album_info,
     valid_count,
-    add_songs,
+)
+from shuffle_by_album.streamlit_functions import (
+    cache_playlists,
+    display_album,
+    add_and_print_songs,
 )
 from shuffle_by_album.constants import title
 
 params = get_params("params.yaml")
-auth = log_in(params)
+auth = authenticate_spotify(params)
 sp = spotipy.Spotify(auth_manager=auth)
 
 
 def main():
-    playlists = playlist_id_dict(sp)
+    playlists = cache_playlists(sp)
 
     # Initialise session variables
     if "input_playlist_id" not in st.session_state:
@@ -30,6 +33,8 @@ def main():
         st.session_state.album_count = 1
     if "albums" not in st.session_state:
         st.session_state.albums = []
+    if "album_info" not in st.session_state:
+        st.session_state.album_info = []
 
     # Sidebar
     input_playlist_name = st.sidebar.selectbox(
@@ -56,10 +61,13 @@ def main():
     if st.button("Pick albums"):
         if valid_count(potential_albums, st.session_state.album_count):
             st.session_state.albums = pick_albums(
-                sp, potential_albums, st.session_state.album_count
+                potential_albums, st.session_state.album_count
+            )
+            st.session_state.album_info = extract_album_info(
+                sp, st.session_state.albums
             )
             "Albums chosen"
-            for a in st.session_state.albums:
+            for a in st.session_state.album_info:
                 display_album(a)
 
         else:
@@ -71,7 +79,9 @@ def main():
 
     if st.button("Add to playlist"):
         if st.session_state.albums:
-            add_songs(sp, st.session_state.output_playlist_id, st.session_state.albums)
+            add_and_print_songs(
+                sp, st.session_state.output_playlist_id, st.session_state.albums
+            )
         else:
             "Pick one or more albums first"
 
