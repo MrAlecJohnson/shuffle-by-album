@@ -1,0 +1,4 @@
+# Mock authentication
+client_id: mock_id1234
+client_secret: mock_secret5678
+redirect_uri: "http://localhost:8080"
