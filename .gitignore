@@ -1,9 +1,9 @@
 # Data/creds
 params.yaml
 
-# OS
+# Local
 .DS_Store
-
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

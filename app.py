@@ -14,9 +14,9 @@ from shuffle_by_album.streamlit_functions import (
     display_album,
     add_and_print_songs,
 )
-from shuffle_by_album.constants import title
+from shuffle_by_album.constants import title, params_filename
 
-params = get_params("params.yaml")
+params = get_params(params_filename)
 auth = authenticate_spotify(params)
 sp = spotipy.Spotify(auth_manager=auth)
 
