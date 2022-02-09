@@ -3,7 +3,7 @@ import pytest
 from shuffle_by_album.spotify_functions import (
     get_params,
     playlist_id_dict,
-    # playlist_albums,
+    playlist_albums,
     valid_count,
     # pick_albums,
     # extract_album_info,
@@ -29,6 +29,62 @@ def test_playlist_id_dict(mock_client):
         "Test playlist 1": "test_playlist_1",
         "Test playlist 2": "test_playlist_2",
     }
+
+
+def test_playlist_albums(mock_client):
+    album_1 = {
+        "artists": [
+            {
+                "name": "Test artist",
+            }
+        ],
+        "id": "album_id_1",
+        "images": [
+            {
+                "height": 640,
+                "url": "https://i.scdn.co/image/album_1_big",
+                "width": 640,
+            },
+            {
+                "height": 300,
+                "url": "https://i.scdn.co/image/album_1_medium",
+                "width": 300,
+            },
+            {
+                "height": 64,
+                "url": "https://i.scdn.co/image/album_1_small",
+                "width": 64,
+            },
+        ],
+        "name": "Test Album One",
+    }
+    album_2 = {
+        "artists": [
+            {
+                "name": "Test artist 2",
+            }
+        ],
+        "id": "album_id_2",
+        "images": [
+            {
+                "height": 640,
+                "url": "https://i.scdn.co/image/album_2_big",
+                "width": 640,
+            },
+            {
+                "height": 300,
+                "url": "https://i.scdn.co/image/album_2_medium",
+                "width": 300,
+            },
+            {
+                "height": 64,
+                "url": "https://i.scdn.co/image/album_2_small",
+                "width": 64,
+            },
+        ],
+        "name": "Test Album Two",
+    }
+    assert playlist_albums(mock_client, "not tested") == [album_1, album_2]
 
 
 @pytest.mark.parametrize(
