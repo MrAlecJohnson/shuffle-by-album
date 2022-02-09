@@ -21,16 +21,16 @@ auth = authenticate_spotify(params)
 sp = spotipy.Spotify(auth_manager=auth)
 
 # Initialise session variables
-if "input_playlist_id" not in st.session_state:
-    st.session_state.input_playlist_id = None
-if "output_playlist_id" not in st.session_state:
-    st.session_state.output_playlist_id = None
-if "album_count" not in st.session_state:
-    st.session_state.album_count = 1
-if "albums" not in st.session_state:
-    st.session_state.albums = []
-if "album_info" not in st.session_state:
-    st.session_state.album_info = []
+variables = [
+    "input_playlist_id",
+    "output_playlist_id",
+    "album_count",
+    "albums",
+    "album_info",
+]
+for v in variables:
+    if v not in st.session_state:
+        setattr(st.session_state, v, None)
 
 
 def main():
