@@ -6,6 +6,10 @@ from spotipy.oauth2 import SpotifyOAuth
 import yaml
 
 
+class NotEnoughAlbums(Exception):
+    pass
+
+
 def get_params(params_file: str) -> Dict[str, str]:
     """Read the parameters file into a dictionary.
 
@@ -107,10 +111,16 @@ def valid_count(album_data: List[Dict[str, str]], album_count: int) -> bool:
     bool
         True if the playlist contains enough albums to meet the user request.
     """
-    if album_count > len(set([a["id"] for a in album_data])):
-        return False
-    else:
+    unique_count = len(set([a["id"] for a in album_data]))
+    if album_count <= unique_count:
         return True
+    else:
+        raise NotEnoughAlbums(
+            (
+                f"You asked for {album_count} albums, but "
+                f"this playlist only contains {unique_count}"
+            )
+        )
 
 
 def pick_albums(
@@ -136,7 +146,8 @@ def pick_albums(
     list
         Dictionary of information for each of the selected albums.
     """
-    random.seed = seed
+    valid_count(album_data, album_count)
+    random.seed(seed)
     # Can't just bung it into a set because dictionaries aren't hashable
     # But album ids are hashable, so pick from them and add to a set
     # Not using random sample because I want to weight by number of appearances

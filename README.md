@@ -25,3 +25,11 @@ Then run:
 - `pre-commit install`
 
 To run the app locally: `streamlit run app.py`
+
+## Unit tests
+
+Run `pip install -e .` before running tests locally.
+
+After that they should run happily with `pytest`.
+
+On reflection, maybe I'd have been better with integration tests that get real responses from Spotify? Create, manipulate and destroy a temporary playlist?
