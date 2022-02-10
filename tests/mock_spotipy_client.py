@@ -12,34 +12,22 @@ playlists_response = {
     ],
     "total": 2,
 }
+# This playlist contains:
+# 2 tracks from album 1, by artist 1
+# 1 track from album 2, by artist 2
+# 1 track from album 3, by artist 2
 playlist_response = {
     "tracks": {
         "items": [
             {
                 "track": {
                     "album": {
-                        "artists": [
-                            {
-                                "name": "Test artist",
-                            }
-                        ],
+                        "artists": [{"name": "Test artist"}],
                         "id": "album_id_1",
                         "images": [
-                            {
-                                "height": 640,
-                                "url": "https://i.scdn.co/image/album_1_big",
-                                "width": 640,
-                            },
-                            {
-                                "height": 300,
-                                "url": "https://i.scdn.co/image/album_1_medium",
-                                "width": 300,
-                            },
-                            {
-                                "height": 64,
-                                "url": "https://i.scdn.co/image/album_1_small",
-                                "width": 64,
-                            },
+                            {"url": "https://i.scdn.co/image/album_1_big"},
+                            {"url": "https://i.scdn.co/image/album_1_medium"},
+                            {"url": "https://i.scdn.co/image/album_1_small"},
                         ],
                         "name": "Test Album One",
                     }
@@ -48,30 +36,42 @@ playlist_response = {
             {
                 "track": {
                     "album": {
-                        "artists": [
-                            {
-                                "name": "Test artist 2",
-                            }
-                        ],
+                        "artists": [{"name": "Test artist 2"}],
                         "id": "album_id_2",
                         "images": [
-                            {
-                                "height": 640,
-                                "url": "https://i.scdn.co/image/album_2_big",
-                                "width": 640,
-                            },
-                            {
-                                "height": 300,
-                                "url": "https://i.scdn.co/image/album_2_medium",
-                                "width": 300,
-                            },
-                            {
-                                "height": 64,
-                                "url": "https://i.scdn.co/image/album_2_small",
-                                "width": 64,
-                            },
+                            {"url": "https://i.scdn.co/image/album_2_big"},
+                            {"url": "https://i.scdn.co/image/album_2_medium"},
+                            {"url": "https://i.scdn.co/image/album_2_small"},
                         ],
                         "name": "Test Album Two",
+                    }
+                }
+            },
+            {
+                "track": {
+                    "album": {
+                        "artists": [{"name": "Test artist"}],
+                        "id": "album_id_1",
+                        "images": [
+                            {"url": "https://i.scdn.co/image/album_1_big"},
+                            {"url": "https://i.scdn.co/image/album_1_medium"},
+                            {"url": "https://i.scdn.co/image/album_1_small"},
+                        ],
+                        "name": "Test Album One",
+                    }
+                }
+            },
+            {
+                "track": {
+                    "album": {
+                        "artists": [{"name": "Test artist 2"}],
+                        "id": "album_id_3",
+                        "images": [
+                            {"url": "https://i.scdn.co/image/album_3_big"},
+                            {"url": "https://i.scdn.co/image/album_3_medium"},
+                            {"url": "https://i.scdn.co/image/album_3_small"},
+                        ],
+                        "name": "Test Album Three",
                     }
                 }
             },

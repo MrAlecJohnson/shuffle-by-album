@@ -2,12 +2,12 @@ import spotipy
 import streamlit as st
 
 from shuffle_by_album.spotify_functions import (
+    NotEnoughAlbums,
     authenticate_spotify,
     get_params,
     playlist_albums,
     pick_albums,
     extract_album_info,
-    valid_count,
 )
 from shuffle_by_album.streamlit_functions import (
     cache_playlists,
@@ -59,7 +59,7 @@ def main():
     st.title(title)
 
     if st.button("Pick albums"):
-        if valid_count(potential_albums, st.session_state.album_count):
+        try:
             st.session_state.albums = pick_albums(
                 potential_albums, st.session_state.album_count
             )
@@ -70,12 +70,9 @@ def main():
             for a in st.session_state.album_info:
                 display_album(a)
 
-        else:
+        except NotEnoughAlbums as e:
             st.session_state.albums = []
-            (
-                f"The selected playlist isn't long enough to pick "
-                f"{st.session_state.album_count} albums"
-            )
+            st.write(str(e))
 
     if st.button("Add to playlist"):
         if st.session_state.albums:
