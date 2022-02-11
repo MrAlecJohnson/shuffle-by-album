@@ -90,3 +90,11 @@ class MockSpotipy:
 
     def playlist(self, playlist_id, fields):
         return self.playlist_response
+
+    def album_tracks(self, album_id):
+        tracks = {
+            "album_id_1": [{"id": "song_1"}, {"id": "song_2"}],
+            "album_id_3": [{"id": "song_5"}, {"id": "song_6"}],
+            "album_id_2": [{"id": "song_3"}, {"id": "song_4"}],
+        }
+        return {"items": tracks[album_id]}
