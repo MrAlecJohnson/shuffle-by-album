@@ -2,35 +2,35 @@ import spotipy
 import streamlit as st
 
 from shuffle_by_album.spotify_functions import (
+    NotEnoughAlbums,
     authenticate_spotify,
     get_params,
     playlist_albums,
     pick_albums,
     extract_album_info,
-    valid_count,
 )
 from shuffle_by_album.streamlit_functions import (
     cache_playlists,
     display_album,
     add_and_print_songs,
 )
-from shuffle_by_album.constants import title
+from shuffle_by_album.constants import title, params_filename
 
-params = get_params("params.yaml")
+params = get_params(params_filename)
 auth = authenticate_spotify(params)
 sp = spotipy.Spotify(auth_manager=auth)
 
 # Initialise session variables
-if "input_playlist_id" not in st.session_state:
-    st.session_state.input_playlist_id = None
-if "output_playlist_id" not in st.session_state:
-    st.session_state.output_playlist_id = None
-if "album_count" not in st.session_state:
-    st.session_state.album_count = 1
-if "albums" not in st.session_state:
-    st.session_state.albums = []
-if "album_info" not in st.session_state:
-    st.session_state.album_info = []
+variables = [
+    "input_playlist_id",
+    "output_playlist_id",
+    "album_count",
+    "albums",
+    "album_info",
+]
+for v in variables:
+    if v not in st.session_state:
+        setattr(st.session_state, v, None)
 
 
 def main():
@@ -59,7 +59,7 @@ def main():
     st.title(title)
 
     if st.button("Pick albums"):
-        if valid_count(potential_albums, st.session_state.album_count):
+        try:
             st.session_state.albums = pick_albums(
                 potential_albums, st.session_state.album_count
             )
@@ -70,12 +70,9 @@ def main():
             for a in st.session_state.album_info:
                 display_album(a)
 
-        else:
+        except NotEnoughAlbums as e:
             st.session_state.albums = []
-            (
-                f"The selected playlist isn't long enough to pick "
-                f"{st.session_state.album_count} albums"
-            )
+            st.write(str(e))
 
     if st.button("Add to playlist"):
         if st.session_state.albums:
