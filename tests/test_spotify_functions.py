@@ -7,8 +7,7 @@ from shuffle_by_album.spotify_functions import (
     playlist_albums,
     valid_count,
     pick_albums,
-    # extract_album_info,
-    # add_songs,
+    extract_album_info,
 )
 from tests.mock_spotipy_client import MockSpotipy
 
@@ -193,3 +192,21 @@ def test_pick_albums(album_count, seed, expected, album_data):
         # Sort result because function uses sets
         result = pick_albums(album_data, album_count, seed)
         assert sorted(result, key=lambda x: x["id"]) == expected
+
+
+def test_extract_album_info(mock_client, album_data):
+    chosen_albums = album_data[0:2]
+    assert extract_album_info(mock_client, chosen_albums) == [
+        {
+            "name": "Test Album One",
+            "artists": ["Test artist"],
+            "image": "https://i.scdn.co/image/album_1_small",
+            "songs": ["song_1", "song_2"],
+        },
+        {
+            "name": "Test Album Two",
+            "artists": ["Test artist 2"],
+            "image": "https://i.scdn.co/image/album_2_small",
+            "songs": ["song_3", "song_4"],
+        },
+    ]
