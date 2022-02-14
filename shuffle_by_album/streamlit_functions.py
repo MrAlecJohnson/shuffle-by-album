@@ -25,6 +25,12 @@ def cache_playlists(client: Spotify) -> Dict[str, str]:
     return playlist_id_dict(client)
 
 
+def reset_album_choices():
+    """Callback to reset album choices and info to None when you change inputs."""
+    st.session_state.albums = None
+    st.session_state.album_info = None
+
+
 def display_album(album: Dict[str, str]) -> None:
     """Use Streamlit to display an album's cover image, name and artist names.
 
@@ -66,3 +72,15 @@ def add_and_print_songs(
     """
     add_songs(client, output_playlist_id, albums)
     st.write(f"Added {', '.join([a['name'] for a in albums])}")
+
+
+def submit_button(client: Spotify) -> None:
+    """Streamlit button wrapped around add_and_print_songs."""
+    if st.button("Add to playlist"):
+        if st.session_state.album_info:
+            add_and_print_songs(
+                client, st.session_state.output_playlist_id, st.session_state.album_info
+            )
+            reset_album_choices()
+        else:
+            st.write("Pick one or more albums first")
