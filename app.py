@@ -12,7 +12,8 @@ from shuffle_by_album.spotify_functions import (
 from shuffle_by_album.streamlit_functions import (
     cache_playlists,
     display_album,
-    add_and_print_songs,
+    submit_button,
+    reset_album_choices,
 )
 from shuffle_by_album.constants import title, params_filename
 
@@ -38,13 +39,19 @@ def main():
 
     # Sidebar
     input_playlist_name = st.sidebar.selectbox(
-        "Which playlist do you want albums from?", playlists.keys()
+        "Which playlist do you want albums from?",
+        playlists.keys(),
+        on_change=reset_album_choices,
     )
     if input_playlist_name:
         st.session_state.input_playlist_id = playlists[input_playlist_name]
 
     st.session_state.album_count = st.sidebar.slider(
-        "How many albums would you like to pick?", 1, 10, value=1
+        "How many albums would you like to pick?",
+        1,
+        10,
+        value=1,
+        on_change=reset_album_choices,
     )
 
     output_playlist_name = st.sidebar.selectbox(
@@ -74,13 +81,7 @@ def main():
             st.session_state.albums = []
             st.write(str(e))
 
-    if st.button("Add to playlist"):
-        if st.session_state.albums:
-            add_and_print_songs(
-                sp, st.session_state.output_playlist_id, st.session_state.albums
-            )
-        else:
-            "Pick one or more albums first"
+    submit_button(sp)
 
 
 if __name__ == "__main__":
