@@ -3,9 +3,16 @@ from typing import Dict, List
 from spotipy.client import Spotify
 import streamlit as st
 
-from shuffle_by_album.spotify_functions import playlist_id_dict, add_songs
+from shuffle_by_album.spotify_functions import (
+    playlist_id_dict,
+    add_songs,
+    pick_albums,
+    extract_album_info,
+    NotEnoughAlbums,
+)
 
 
+# UTILS
 @st.cache
 def cache_playlists(client: Spotify) -> Dict[str, str]:
     """Run playlist_id_dict, but cache the results so Streamlit doesn't reload them.
@@ -31,6 +38,32 @@ def reset_album_choices():
     st.session_state.album_info = None
 
 
+# SIDEBAR INPUT
+def input_playlist_picker(playlists: Dict[str, str]) -> str:
+    return st.sidebar.selectbox(
+        "Which playlist do you want albums from?",
+        playlists.keys(),
+        on_change=reset_album_choices,
+    )
+
+
+def album_count_slider() -> int:
+    return st.sidebar.slider(
+        "How many albums would you like to pick?",
+        1,
+        10,
+        value=1,
+        on_change=reset_album_choices,
+    )
+
+
+def output_playlist_picker(playlists: Dict[str, str]) -> str:
+    return st.sidebar.selectbox(
+        "Which playlist do you want to add the albums to?", playlists.keys()
+    )
+
+
+# MAIN DISPLAY
 def display_album(album: Dict[str, str]) -> None:
     """Use Streamlit to display an album's cover image, name and artist names.
 
@@ -48,6 +81,24 @@ def display_album(album: Dict[str, str]) -> None:
     st.image(album["image"])
     st.text(f"Album: {album['name']}")
     st.text(f"By: {', '.join(album['artists'])}")
+
+
+def album_picker_button(client: Spotify, potential_albums: List[Dict[str, str]]):
+    if st.button("Pick albums"):
+        try:
+            st.session_state.albums = pick_albums(
+                potential_albums, st.session_state.album_count
+            )
+            st.session_state.album_info = extract_album_info(
+                client, st.session_state.albums
+            )
+            st.write("Albums chosen")
+            for a in st.session_state.album_info:
+                display_album(a)
+
+        except NotEnoughAlbums as e:
+            st.session_state.albums = []
+            st.write(str(e))
 
 
 def add_and_print_songs(
