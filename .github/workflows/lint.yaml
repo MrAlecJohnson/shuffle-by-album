@@ -35,4 +35,4 @@ jobs:
           pip install flake8
       - name: Lint Python files with flake8
         run: >
-          flake8 app.py
+          flake8 .
