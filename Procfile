@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run minimal.py
+web: streamlit run minimal.py
