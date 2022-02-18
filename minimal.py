@@ -6,6 +6,7 @@ import streamlit as st
 
 from shuffle_by_album.spotify_functions import (
     authenticate_spotify,
+    playlist_id_dict,
 )
 from shuffle_by_album.constants import redirect_uri
 
@@ -18,7 +19,7 @@ def main():
 
     auth = authenticate_spotify(client_id, client_secret, redirect_uri)
     sp = spotipy.Spotify(auth_manager=auth)
-    print(sp)
+    st.write(playlist_id_dict(sp).keys())
 
 
 if __name__ == "__main__":
