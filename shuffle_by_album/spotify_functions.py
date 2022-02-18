@@ -3,40 +3,26 @@ from typing import Dict, List
 
 from spotipy.client import Spotify
 from spotipy.oauth2 import SpotifyOAuth
-import yaml
 
 
 class NotEnoughAlbums(Exception):
     pass
 
 
-def get_params(params_file: str) -> Dict[str, str]:
-    """Read the parameters file into a dictionary.
-
-    Parameters
-    ----------
-    params_file : str
-        Filename to open - probably in the project root.
-
-    Returns
-    -------
-    dict
-        Dictionary of parameters - currently mainly the Spotify client secrets.
-    """
-    with open(params_file, "r") as f:
-        return yaml.safe_load(f)
-
-
-def authenticate_spotify(params: Dict[str, str]) -> SpotifyOAuth:
+def authenticate_spotify(
+    client_id: str, client_secret: str, redirect_uri: str
+) -> SpotifyOAuth:
     """Authenticate with the Spotify API.
 
     Parameters
     ----------
-    params : dict
-        A dictionary loaded from the parameters file. Must contain:
-        - client_id
-        - client_secret
-        - redirect_uri
+    client_id : str
+        Developer client id for the Spotify app.
+    client_secret : str
+        Developer client secret for the Spotify app.
+    redirect_uri : str
+        Spotify demands this but not sure I understand it yet.
+        Works fine as "http://localhost:8080"
 
     Returns
     -------
@@ -45,9 +31,9 @@ def authenticate_spotify(params: Dict[str, str]) -> SpotifyOAuth:
         when creating a Spotify client with spotipy.Spotify()
     """
     return SpotifyOAuth(
-        client_id=params["client_id"],
-        client_secret=params["client_secret"],
-        redirect_uri=params["redirect_uri"],
+        client_id=client_id,
+        client_secret=client_secret,
+        redirect_uri=redirect_uri,
         scope="playlist-modify-private",
     )
 

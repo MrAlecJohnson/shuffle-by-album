@@ -2,7 +2,6 @@ import pytest
 
 from shuffle_by_album.spotify_functions import (
     NotEnoughAlbums,
-    get_params,
     playlist_id_dict,
     playlist_albums,
     valid_count,
@@ -61,13 +60,6 @@ def album_data():
             "name": "Test Album Three",
         },
     ]
-
-
-def test_get_params():
-    params = get_params("tests/mock_params.yaml")
-    assert params["client_id"] == "mock_id1234"
-    assert params["client_secret"] == "mock_secret5678"
-    assert params["redirect_uri"] == "http://localhost:8080"
 
 
 def test_playlist_id_dict(mock_client):

@@ -1,4 +1,4 @@
-pytest     ~=7.0.0
-pyyaml     ~=6.0
-spotipy    ~=2.19.0
-streamlit  ~=1.5.0
+python-dotenv ~=0.19.2
+pytest        ~=7.0.0
+spotipy       ~=2.19.0
+streamlit     ~=1.5.0

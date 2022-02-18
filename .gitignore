@@ -1,5 +1,6 @@
 # Data/creds
 params.yaml
+.env
 
 # Local
 .DS_Store
