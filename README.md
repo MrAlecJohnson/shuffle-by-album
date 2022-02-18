@@ -11,7 +11,14 @@ This also avoids using Spotify's unclear shuffling algorithm, which *seems* to l
 
 Create a new virtual environment for Python 3.9.6+
 
-Create a file called `params.yaml`, based on the structure in `sample_params.yaml`. This will let you authenticate with Spotify. You'll need to set up a Spotify app first. No docs on this as I plan to have it working as a proper app for multiple users before that becomes relevant.
+Create a file called `.env` and add these lines:
+
+```
+CLIENT_ID=""
+CLIENT_SECRET=""
+```
+
+The strings for these variables should come from your Spotify developer dashboard. You'll need to set up a Spotify app first. No docs on this as I plan to have it working as a proper app for multiple users before that becomes relevant.
 
 In Spotify itself, create the playlist you want to pick songs from. Or use an existing one. Either is fine.
 

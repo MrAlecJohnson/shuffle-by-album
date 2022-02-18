@@ -1,9 +1,11 @@
+from os import getenv
+
+from dotenv import load_dotenv
 import spotipy
 import streamlit as st
 
 from shuffle_by_album.spotify_functions import (
     authenticate_spotify,
-    get_params,
     playlist_albums,
 )
 from shuffle_by_album.streamlit_functions import (
@@ -14,10 +16,14 @@ from shuffle_by_album.streamlit_functions import (
     album_picker_button,
     submit_button,
 )
-from shuffle_by_album.constants import title, params_filename
+from shuffle_by_album.constants import title, redirect_uri
 
-params = get_params(params_filename)
-auth = authenticate_spotify(params)
+
+load_dotenv()
+client_id = getenv("CLIENT_ID")
+client_secret = getenv("CLIENT_SECRET")
+
+auth = authenticate_spotify(client_id, client_secret, redirect_uri)
 sp = spotipy.Spotify(auth_manager=auth)
 
 # Initialise session variables
