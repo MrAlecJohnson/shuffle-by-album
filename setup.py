@@ -8,5 +8,5 @@ setup(
     python_requires=">=3.9.6",
     author="Alec Johnson",
     license="MIT",
-    install_requires=["pytest     ~=7.0.0", "pyyaml     ~=6.0", "spotipy    ~=2.19.0"],
+    install_requires=["pytest ~=7.0.0", "python-dotenv ~=0.19.2", "spotipy ~=2.19.0"],
 )
