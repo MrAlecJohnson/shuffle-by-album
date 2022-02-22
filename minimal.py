@@ -58,7 +58,7 @@ def main():
     auth = authenticate_spotify(client_id, client_secret, redirect_uri)
     # Store oauth in session
     st.session_state["oauth"] = auth
-    sys.stdout.write(st.session_state["oauth"])
+    sys.stdout.write(str(st.session_state["oauth"]))
 
     if not st.session_state["signed_in"]:
         sys.stdout.write("Not signed in")
