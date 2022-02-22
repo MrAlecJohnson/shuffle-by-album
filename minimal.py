@@ -1,4 +1,5 @@
 import os
+import sys
 
 from dotenv import load_dotenv
 import spotipy
@@ -31,6 +32,7 @@ def app_get_token():
 
 
 def main():
+    sys.stdout.write("START")
     st.title("This is a title")
     load_dotenv()
     client_id = os.getenv("CLIENT_ID")
@@ -44,11 +46,11 @@ def main():
 
     # Try to sign in with cached token
     if st.session_state["cached_token"]:
-        print("Cached token")
+        sys.stdout.write("Cached token")
         pass
     # If no token, but code in url, get code, parse token, and sign in
     elif "code" in url_params:
-        print("Code in url")
+        sys.stdout.write("Code in url")
         st.session_state["code"] = url_params["code"][0]
         app_get_token()
 
@@ -56,18 +58,18 @@ def main():
     auth = authenticate_spotify(client_id, client_secret, redirect_uri)
     # Store oauth in session
     st.session_state["oauth"] = auth
-    print(st.session_state["oauth"])
+    sys.stdout.write(st.session_state["oauth"])
 
     if not st.session_state["signed_in"]:
-        print("Not signed in")
+        sys.stdout.write("Not signed in")
         # Retrieve auth url
         auth_url = auth.get_authorize_url()
         link_html = f'<a target="_self" href="{auth_url}" >Click to log in</a>'
-        print(link_html)
+        sys.stdout.write(link_html)
         st.markdown(link_html, unsafe_allow_html=True)
 
     else:
-        print("Signing in")
+        sys.stdout.write("Signing in")
         sp = app_sign_in()
 
         # Do stuff
