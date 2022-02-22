@@ -9,6 +9,7 @@ from shuffle_by_album.spotify_functions import (
     playlist_albums,
 )
 from shuffle_by_album.streamlit_functions import (
+    initialise_variables,
     cache_playlists,
     input_playlist_picker,
     album_count_slider,
@@ -34,9 +35,7 @@ variables = [
     "albums",
     "album_info",
 ]
-for v in variables:
-    if v not in st.session_state:
-        setattr(st.session_state, v, None)
+initialise_variables(variables)
 
 
 def main():

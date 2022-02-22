@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Any
 
 from spotipy.client import Spotify
 import streamlit as st
@@ -13,6 +13,31 @@ from shuffle_by_album.spotify_functions import (
 
 
 # UTILS
+def initialise_variables(
+    variables: List[str], initial_values: List[Any] = None
+) -> None:
+    """Add variables in list to st.session_state.
+    If no initial_values, all will start with value of None.
+    If initial_values is list of equal length to variables, map its values to those
+    session_variables
+
+    Parameters
+    ----------
+    variables : list
+        Names of the variables to add to st.session_state
+    initial_values : list (optional)
+        List of equal length to variables.
+    """
+    if initial_values:
+        for i, v in enumerate(variables):
+            if v not in st.session_state:
+                setattr(st.session_state, v, initial_values[i])
+    else:
+        for v in variables:
+            if v not in st.session_state:
+                setattr(st.session_state, v, None)
+
+
 @st.cache
 def cache_playlists(client: Spotify) -> Dict[str, str]:
     """Run playlist_id_dict, but cache the results so Streamlit doesn't reload them.
